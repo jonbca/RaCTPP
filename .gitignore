@@ -1,0 +1,7 @@
+*.bundle
+*.o
+Makefile
+*.log
+*.so
+.rvmrc
+*.tmproj
