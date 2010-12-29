@@ -33,7 +33,7 @@ Now, back to this project. Install the required rubygems with:
 
     $ bundle install
 
-Then, go into the `src` directory and run the build process:
+Then, go into the `ext/ractpp` directory and run the build process:
 
     $ ruby extconf.rb --with-ractpp-include=/path/to/FaCT++-1.5.0/src/Kernel --with-ractpp-lib=/path/to/FaCT++-1.5.0/src/Kernel/obj
 
