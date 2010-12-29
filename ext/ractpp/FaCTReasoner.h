@@ -19,11 +19,23 @@ along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KERNEL_REASONER_SEEN
 #define KERNEL_REASONER_SEEN
 #include <sstream>
+#include <exception>
 
 #ifdef NEED_KERNEL_H
 #include "Kernel.h"
 #else
+/* Deal with the implementation later */
 class ReasoningKernel;
+
+/* Include the exceptions from FaCT++ */
+#include "eFaCTPlusPlus.h"
+#include "eFPPAxiomLoadFailure.h"
+#include "eFPPCantRegName.h"
+#include "eFPPCycleInRIA.h"
+#include "eFPPInconsistentKB.h"
+#include "eFPPNonSimpleRole.h"
+#include "eFPPSaveLoad.h"
+#include "eFPPTimeout.h"
 #endif
 
 class FaCTReasoner {
@@ -39,9 +51,12 @@ public:
 	// About the reasoner
 	static const char* getReasonerVersion(void);
 	
+	// Information about the knowledge base
 	bool isKBPreprocessed(void) const;
 	bool isKBClassified(void) const;
 	bool isKBRealised(void) const;
+	
+	bool clearKB(void);
 	
 	// Setup functions
 	void setVerboseOutput(bool value);
@@ -49,5 +64,8 @@ public:
 		const char* topDRoleName, const char* botDRoleName);
 	void writeReasoningResult( std::ostream& o, float time) const;
 	void setOperationTimeout(unsigned long timeout);
+	
+	// Classification
+	void classify(void);
 };
 #endif

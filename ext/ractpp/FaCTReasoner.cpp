@@ -55,8 +55,12 @@ void FaCTReasoner::setVerboseOutput(bool value) {
 	Kernel->setVerboseOutput(value);
 }
 
-void FaCTReasoner::writeReasoningResult( std::ostream& o, float time) const {
-	Kernel->writeReasoningResult(o, time);
+bool FaCTReasoner::clearKB(void) {
+	return Kernel->clearKB();
+}
+
+void FaCTReasoner::classify(void) {
+	
 }
 
 void FaCTReasoner::setOperationTimeout(unsigned long timeout) {
