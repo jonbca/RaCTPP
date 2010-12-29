@@ -28,4 +28,4 @@ CONFIG['warnflags'].gsub!("-Wshorten-64-to-32", "")
 # Add the FaCT++ library to the build path
 find_library('Kernel', nil)
 
-create_makefile(extension_name)
+create_makefile(extension_name + "/core")

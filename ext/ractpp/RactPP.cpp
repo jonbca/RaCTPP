@@ -64,7 +64,7 @@ static VALUE t_isKBRealised(VALUE self) {
 	return reasoner->isKBRealised() ? Qtrue : Qfalse;
 }
 
-void Init_ractpp() {
+void Init_core() {
 	cFactPP = rb_define_class("RactPP", rb_cObject);
 	cFactReasoner = rb_define_class("FaCTReasoner", rb_cObject);
 	rb_define_method(cFactPP, "initialize", (VALUE (*)(...)) t_init, 0);
