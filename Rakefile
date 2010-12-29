@@ -36,11 +36,11 @@ end
 
 Rake::GemPackageTask.new(spec).define
 
-desc "Remove build files"
-task :clean => [:clobber_package]
-
-Rake::ExtensionTask.new('RaCTPP') do |t|
-  t.ext_dir       = 'ext/ractpp'
+Rake::ExtensionTask.new('core', spec) do |t|
+  t.config_options = ["--with-ractpp-include=#{ENV['FACT_KERNEL_DIR']}",
+                      "--with-ractpp-lib=#{ENV['FACT_KERNEL_DIR']}/obj"]
+  t.ext_dir = 'ext/ractpp'
+  t.lib_dir = 'lib/ractpp'
 end
 
 desc "Run RSpec tests"
