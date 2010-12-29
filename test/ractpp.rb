@@ -1,4 +1,4 @@
-require '../src/ractpp'
+require '../ext/ractpp/core'
 
 describe RactPP do
   before(:each) do
