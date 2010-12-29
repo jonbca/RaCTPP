@@ -24,4 +24,8 @@ describe RactPP do
   it "should not be realised when no ontology is present" do
     @rpp.kb_realised?.should == false
   end
+  
+  it "should clear the knowledge base" do
+    @rpp.clear_kb! == true
+  end
 end
