@@ -20,7 +20,7 @@ What else do I need?
 You'll need:
 
   *  Ruby 1.9.2
-  *  bundler
+  *  bundler (`gem install bundler`)
   *  gcc, g++, and make. I've tested this with gcc 4.2.1 on the Mac, with the latest version of XCode.
 
 Now, to build the project:
@@ -33,20 +33,13 @@ Now, back to this project. Install the required rubygems with:
 
     $ bundle install
 
-Then, go into the `ext/ractpp` directory and run the build process:
+Then, use the Rakefile to build the project, specifying the location of the FaCT++ Kernel:
 
-    $ ruby extconf.rb --with-ractpp-include=/path/to/FaCT++-1.5.0/src/Kernel --with-ractpp-lib=/path/to/FaCT++-1.5.0/src/Kernel/obj
+	$ rake compile FACT_KERNEL_DIR=/path/to/FaCT++-1.5.0/src/Kernel
 
-You should see the output:
+And finally, run the RSpec tests:
 
-    checking for main() in -lKernel... yes
-    creating Makefile
-
-Then:
-
-    $ make
-
-You can run the tests in the `test` directory with `rspec ractpp.rb`.
+	$ rake spec
 
 Tell me more...
 ---------------
