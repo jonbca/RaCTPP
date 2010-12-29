@@ -14,3 +14,22 @@
 # 
 # You should have received a copy of the GNU Lesser General Public License
 # along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
+require 'rake/gempackagetask'
+
+spec = Gem::Specification.new do |s|
+  s.platform      = Gem::Platform::RUBY
+  s.summary       = 'Ruby wrapper for the FaCT++ SROIQ(D) reasoner'
+  s.version       = "0.0.1"
+  s.name          = "RaCTPP"
+  s.author        = "Jonathan Abourbih"
+  s.email         = "jon.abourbih+ractpp@gmail.com"
+  s.required_ruby_version = ">=1.9"
+  s.files         = Dir['**/**']
+  s.test_files    = Dir['test/*.rb']
+  s.has_rdoc      = false
+  s.extensions    << 'ext/ractpp/extconf.rb'
+  s.license       = 'LGPL-3'
+  s.add_development_dependency('rspec')
+end
+
+Rake::GemPackageTask.new(spec).define
