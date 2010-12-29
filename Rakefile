@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 require 'rake/gempackagetask'
+require 'rspec/core/rake_task'
 
 spec = Gem::Specification.new do |s|
   s.platform      = Gem::Platform::RUBY
@@ -33,3 +34,11 @@ spec = Gem::Specification.new do |s|
 end
 
 Rake::GemPackageTask.new(spec).define
+
+desc "Remove build files"
+task :clean => [:clobber_package]
+
+desc "Run RSpec tests"
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.pattern = 'test/**/*_spec.rb'
+end
