@@ -5,3 +5,4 @@ Makefile
 *.so
 .rvmrc
 *.tmproj
+Gemfile.lock
