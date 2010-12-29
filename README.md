@@ -3,7 +3,7 @@ RaCTPP
 
 What is it?
 -----------
-RaCTPP is a Ruby wrapper for [FaCT++](http://code.google.com/p/factplusplus/), a SHOIQ(D) description logic reasoner, with support for OWL DL and partial support for OWL 2.0. RaCTPP is intended to be used as a reasoner for the Web Ontology Language (OWL) in Semantic Web and [Linked Data](http://linkeddata.org) applications.
+RaCTPP is a Ruby wrapper for [FaCT++](http://code.google.com/p/factplusplus/), a SROIQ(D) description logic reasoner, with support for OWL DL and partial support for OWL 2.0. RaCTPP is intended to be used as a reasoner for the Web Ontology Language (OWL) in Semantic Web and [Linked Data](http://linkeddata.org) applications.
 
 What is it not?
 ---------------
