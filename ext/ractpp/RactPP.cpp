@@ -79,6 +79,18 @@ static VALUE t_realise(VALUE self) {
 	return Qnil;
 }
 
+static VALUE t_setTopBottomPropertyNames(VALUE self, VALUE rTopObjectName, VALUE rBotObjectName, VALUE rTopDataName, VALUE rBotDataName) {
+	FaCTReasoner *reasoner;
+	Data_Get_Struct(self, FaCTReasoner, reasoner);
+	char* topObjectName = RSTRING_PTR(StringValue(rTopObjectName));
+	char* botObjectName = RSTRING_PTR(StringValue(rBotObjectName));
+	char* topDataName = RSTRING_PTR(StringValue(rTopDataName));
+	char* botDataName = RSTRING_PTR(StringValue(rBotDataName));
+	
+	reasoner->setTopBottomPropertyNames(topObjectName, botObjectName, topDataName, botDataName);
+	return Qnil;
+}
+
 static VALUE ractpp_alloc(VALUE klass) {
 	VALUE obj;
 	FaCTReasoner *reasoner = new FaCTReasoner;
@@ -97,6 +109,7 @@ void Init_core() {
 	rb_define_method(cFactPP, "clear_kb!", (VALUE(*)(...)) t_clearKB, 0);
 	rb_define_method(cFactPP, "classify", (VALUE(*)(...)) t_classify, 0);
 	rb_define_method(cFactPP, "realise", (VALUE(*)(...)) t_realise, 0);
+	rb_define_method(cFactPP, "set_top_bottom_property_names", (VALUE(*)(...)) t_setTopBottomPropertyNames, 4);
 }
 
 #ifdef __cplusplus

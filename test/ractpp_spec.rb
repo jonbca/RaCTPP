@@ -42,6 +42,10 @@ describe RactPP do
   end
   
   it "should clear the knowledge base" do
-    @rpp.clear_kb! == true
+    @rpp.clear_kb!.should == true
+  end
+  
+  it "should set the top and bottom object and data names" do
+    @rpp.set_top_bottom_property_names("topObject", "botObject", "topData", "botData").should == nil
   end
 end

@@ -30,7 +30,7 @@ FaCTReasoner::~FaCTReasoner() {
 	delete Kernel;
 }
 
-void FaCTReasoner::setTopBottomRoleNames(const char* topORoleName, const char* botORoleName,
+void FaCTReasoner::setTopBottomPropertyNames(const char* topORoleName, const char* botORoleName,
 	const char* topDRoleName, const char* botDRoleName) {
 	Kernel->setTopBottomRoleNames(topORoleName, botORoleName, topDRoleName, botDRoleName);
 }

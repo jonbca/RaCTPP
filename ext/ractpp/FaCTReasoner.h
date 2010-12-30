@@ -60,9 +60,8 @@ public:
 	
 	// Setup functions
 	void setVerboseOutput(bool value);
-	void setTopBottomRoleNames(const char* topORoleName, const char* botORoleName,
+	void setTopBottomPropertyNames(const char* topORoleName, const char* botORoleName,
 		const char* topDRoleName, const char* botDRoleName);
-	void writeReasoningResult( std::ostream& o, float time) const;
 	void setOperationTimeout(unsigned long timeout);
 	
 	// Classification
