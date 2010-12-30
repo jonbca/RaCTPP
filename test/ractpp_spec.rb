@@ -16,9 +16,9 @@
 # along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 require_relative '../lib/ractpp/core'
 
-describe RactPP do
+describe RaCTPP do
   before(:each) do
-    @rpp = RactPP.new
+    @rpp = RaCTPP::RaCTPP.new
   end
   
   it "should create a new reasoner" do

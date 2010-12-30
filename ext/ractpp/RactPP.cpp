@@ -27,6 +27,9 @@ extern "C" {
 #define RACT_RB_BOOL(val) \
 			val ? Qtrue : Qfalse;
 
+/* the RaCTPP Module */
+VALUE mRactPPModule;
+
 /* the Ruby class */
 VALUE cFactPP;
 
@@ -95,12 +98,13 @@ static VALUE ractpp_alloc(VALUE klass) {
 	VALUE obj;
 	FaCTReasoner *reasoner = new FaCTReasoner;
 	
-	obj = Data_Wrap_Struct(klass, 0, free_reasoner, reasoner);
+	obj = Data_Wrap_Struct(klass, NULL, free_reasoner, reasoner);
 	return obj;
 }
 
 void Init_core() {
-	cFactPP = rb_define_class("RactPP", rb_cObject);
+	mRactPPModule = rb_define_module("RaCTPP");
+	cFactPP = rb_define_class_under(mRactPPModule, "RaCTPP", rb_cObject);
 	rb_define_alloc_func(cFactPP, ractpp_alloc);
 	rb_define_method(cFactPP, "get_version", (VALUE (*)(...)) t_getVersion, 0);
 	rb_define_method(cFactPP, "kb_preprocessed?", (VALUE (*)(...)) t_isKBPreprocessed, 0);
