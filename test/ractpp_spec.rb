@@ -28,32 +28,32 @@ describe RaCTPP do
   it "should have reasoner version 1.5.0" do
     @rpp.get_version.should == "1.5.0"
   end
-  
-  it "should not be pre-processed when no ontology is present" do
-    @rpp.kb_preprocessed?.should == false
-  end
-  
-  it "should not be classified when no ontology is present" do
-    @rpp.kb_classified?.should == false
-  end
-  
-  it "should not be realised when no ontology is present" do
-    @rpp.kb_realised?.should == false
-  end
-  
-  it "should clear the knowledge base" do
-    @rpp.clear_kb!.should == true
-  end
-  
-  it "should set the top and bottom object and data names" do
-    @rpp.set_top_bottom_property_names("topObject", "botObject", "topData", "botData").should == nil
-  end
-  
-  it "should classify an empty kb without raising an exception" do
-    @rpp.classify.should == nil
-  end
-  
-  it "should realise an empty kb without raising an exception" do
-    @rpp.realise.should == nil
-  end
+  # 
+  # it "should not be pre-processed when no ontology is present" do
+  #   @rpp.kb_preprocessed?.should == false
+  # end
+  # 
+  # it "should not be classified when no ontology is present" do
+  #   @rpp.kb_classified?.should == false
+  # end
+  # 
+  # it "should not be realised when no ontology is present" do
+  #   @rpp.kb_realised?.should == false
+  # end
+  # 
+  # it "should clear the knowledge base" do
+  #   @rpp.clear_kb!.should == true
+  # end
+  # 
+  # it "should set the top and bottom object and data names" do
+  #   @rpp.set_top_bottom_property_names("topObject", "botObject", "topData", "botData").should == nil
+  # end
+  # 
+  # it "should classify an empty kb without raising an exception" do
+  #   @rpp.classify.should == nil
+  # end
+  # 
+  # it "should realise an empty kb without raising an exception" do
+  #   @rpp.realise.should == nil
+  # end
 end

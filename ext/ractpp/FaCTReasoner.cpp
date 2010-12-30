@@ -30,13 +30,13 @@ FaCTReasoner::~FaCTReasoner() {
 	delete Kernel;
 }
 
+const char* FaCTReasoner::getReasonerVersion(void) {
+	return ReasoningKernel::getVersion();
+}
+
 void FaCTReasoner::setTopBottomPropertyNames(const char* topORoleName, const char* botORoleName,
 	const char* topDRoleName, const char* botDRoleName) {
 	Kernel->setTopBottomRoleNames(topORoleName, botORoleName, topDRoleName, botDRoleName);
-}
-
-const char* FaCTReasoner::getReasonerVersion(void) {
-	return ReasoningKernel::getVersion();
 }
 
 bool FaCTReasoner::isKBPreprocessed(void) const {
@@ -60,11 +60,7 @@ bool FaCTReasoner::clearKB(void) {
 }
 
 void FaCTReasoner::classify(void) {
-	try {
-		Kernel->classifyKB();
-	} catch(std::exception e) {
-		throw new FaCTReasonerException;
-	}
+	Kernel->classifyKB();
 }
 
 void FaCTReasoner::realise(void) {
