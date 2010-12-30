@@ -48,4 +48,12 @@ describe RaCTPP do
   it "should set the top and bottom object and data names" do
     @rpp.set_top_bottom_property_names("topObject", "botObject", "topData", "botData").should == nil
   end
+  
+  it "should classify an empty kb without raising an exception" do
+    @rpp.classify.should == nil
+  end
+  
+  it "should realise an empty kb without raising an exception" do
+    @rpp.realise.should == nil
+  end
 end

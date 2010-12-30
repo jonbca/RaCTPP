@@ -26,17 +26,20 @@ along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 #else
 /* Deal with the implementation later */
 class ReasoningKernel;
-
 /* Include the exceptions from FaCT++ */
-#include "eFaCTPlusPlus.h"
-#include "eFPPAxiomLoadFailure.h"
-#include "eFPPCantRegName.h"
-#include "eFPPCycleInRIA.h"
-#include "eFPPInconsistentKB.h"
-#include "eFPPNonSimpleRole.h"
-#include "eFPPSaveLoad.h"
-#include "eFPPTimeout.h"
+// #include "eFaCTPlusPlus.h"
+// #include "eFPPAxiomLoadFailure.h"
+// #include "eFPPCantRegName.h"
+// #include "eFPPCycleInRIA.h"
+// #include "eFPPInconsistentKB.h"
+// #include "eFPPNonSimpleRole.h"
+// #include "eFPPSaveLoad.h"
+// #include "eFPPTimeout.h"
 #endif
+
+class FaCTReasonerException : public std::exception {
+	
+};
 
 class FaCTReasoner {
 private:
@@ -66,5 +69,6 @@ public:
 	
 	// Classification
 	void classify(void);
+	void realise(void);
 };
 #endif

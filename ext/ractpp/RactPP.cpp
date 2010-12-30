@@ -19,7 +19,7 @@ along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef __cplusplus
 #include "FaCTReasoner.h"
 #include <iostream>
-
+#include <cstdarg>
 extern "C" {
 #endif
 #include "ruby.h"
@@ -32,6 +32,7 @@ VALUE mRactPPModule;
 
 /* the Ruby class */
 VALUE cFactPP;
+VALUE cRactPPException;
 
 void free_reasoner(FaCTReasoner *reasoner) {
 	delete reasoner;
@@ -66,10 +67,16 @@ static VALUE t_clearKB(VALUE self) {
 	return RACT_RB_BOOL(reasoner->clearKB());
 }
 
-//TODO raises exception
 static VALUE t_classify(VALUE self) {
 	FaCTReasoner *reasoner;
 	Data_Get_Struct(self, FaCTReasoner, reasoner);
+	
+	try {
+		reasoner->classify();
+	} catch(std::exception e) {
+		VALUE except = rb_class_new_instance(0, NULL, cRactPPException);
+		rb_raise(except, "An error occurred doing classification.");
+	}
 	
 	return Qnil;
 }
@@ -79,6 +86,8 @@ static VALUE t_realise(VALUE self) {
 	FaCTReasoner *reasoner;
 	Data_Get_Struct(self, FaCTReasoner, reasoner);
 	
+	//reasoner->realise();
+	rb_raise(cRactPPException, "%s", "An error occurred doing classification.");
 	return Qnil;
 }
 
@@ -105,6 +114,8 @@ static VALUE ractpp_alloc(VALUE klass) {
 void Init_core() {
 	mRactPPModule = rb_define_module("RaCTPP");
 	cFactPP = rb_define_class_under(mRactPPModule, "RaCTPP", rb_cObject);
+	cRactPPException = rb_define_class_under(mRactPPModule, "RaCTPPException", rb_cObject);
+	
 	rb_define_alloc_func(cFactPP, ractpp_alloc);
 	rb_define_method(cFactPP, "get_version", (VALUE (*)(...)) t_getVersion, 0);
 	rb_define_method(cFactPP, "kb_preprocessed?", (VALUE (*)(...)) t_isKBPreprocessed, 0);
@@ -114,6 +125,8 @@ void Init_core() {
 	rb_define_method(cFactPP, "classify", (VALUE(*)(...)) t_classify, 0);
 	rb_define_method(cFactPP, "realise", (VALUE(*)(...)) t_realise, 0);
 	rb_define_method(cFactPP, "set_top_bottom_property_names", (VALUE(*)(...)) t_setTopBottomPropertyNames, 4);
+	
+	// rb_define_method(cRactPPException, "new", (VALUE(*)(...)) t_exc_new, 1);
 }
 
 #ifdef __cplusplus

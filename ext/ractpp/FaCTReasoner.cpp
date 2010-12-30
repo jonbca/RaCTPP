@@ -60,7 +60,15 @@ bool FaCTReasoner::clearKB(void) {
 }
 
 void FaCTReasoner::classify(void) {
-	
+	try {
+		Kernel->classifyKB();
+	} catch(std::exception e) {
+		throw new FaCTReasonerException;
+	}
+}
+
+void FaCTReasoner::realise(void) {
+	Kernel->realiseKB();
 }
 
 void FaCTReasoner::setOperationTimeout(unsigned long timeout) {
