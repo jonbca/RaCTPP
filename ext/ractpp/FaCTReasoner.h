@@ -58,10 +58,8 @@ public:
 	bool clearKB(void);
 	
 	// Setup functions
-	void setVerboseOutput(bool value);
 	void setTopBottomPropertyNames(const char* topORoleName, const char* botORoleName,
 		const char* topDRoleName, const char* botDRoleName);
-	void setOperationTimeout(unsigned long timeout);
 	
 	// Classification
 	void classify(void);

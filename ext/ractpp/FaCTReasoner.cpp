@@ -51,10 +51,6 @@ bool FaCTReasoner::isKBRealised(void) const {
 	return Kernel->isKBRealised();
 }
 
-void FaCTReasoner::setVerboseOutput(bool value) {
-	Kernel->setVerboseOutput(value);
-}
-
 bool FaCTReasoner::clearKB(void) {
 	return Kernel->clearKB();
 }
@@ -65,8 +61,4 @@ void FaCTReasoner::classify(void) {
 
 void FaCTReasoner::realise(void) {
 	Kernel->realiseKB();
-}
-
-void FaCTReasoner::setOperationTimeout(unsigned long timeout) {
-	Kernel->setOperationTimeout(timeout);
 }
