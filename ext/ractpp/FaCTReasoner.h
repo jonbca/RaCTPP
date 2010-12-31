@@ -18,8 +18,7 @@ along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 */
 #ifndef KERNEL_REASONER_SEEN
 #define KERNEL_REASONER_SEEN
-#include <sstream>
-#include <exception>
+#include <string>
 
 #ifdef NEED_KERNEL_H
 #include "Kernel.h"
@@ -37,18 +36,12 @@ class ReasoningKernel;
 #include "eFPPTimeout.h"
 #endif
 
-namespace {
-enum EntityType {
-	Class,
-	Individual,
-	ObjectProperty
-};
+struct Entity;
 
-struct Entity {
-	void* entityPointer;
-	char* name;
-	EntityType type;
-};
+enum EntityType {
+	ClassType,
+	IndividualType,
+	ObjectPropertyType
 };
 
 class FaCTReasoner {
@@ -80,6 +73,27 @@ public:
 	void realise(void);
 	
 	// Concepts
-	const void* getTop(void);
+	Entity* getTop(void) const;
+	Entity* getBottom(void) const;
+};
+
+struct Entity {
+	friend class FaCTReasoner;
+private:
+	const void * entityPointer;
+	std::string name;
+	EntityType type;
+public:
+	std::string getName() const {
+		return name;
+	}
+	
+	EntityType getType() const {
+		return type;
+	}
+	
+	const void * const getEntityPointer() const {
+		return entityPointer;
+	}
 };
 #endif

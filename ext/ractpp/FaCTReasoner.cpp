@@ -63,9 +63,28 @@ void FaCTReasoner::realise(void) {
 	Kernel->realiseKB();
 }
 
-const void* FaCTReasoner::getTop(void) {
+Entity* FaCTReasoner::getTop(void) const {
 	TExpressionManager* em = Kernel->getExpressionManager();
 	
 	ReasoningKernel::TConceptExpr* top = em->Top();
-	return top;
+	
+	Entity *entity = new Entity;
+	entity->entityPointer = top;
+	entity->type = ClassType;
+	entity->name = "Top Concept";
+	
+	return entity;
+}
+
+Entity* FaCTReasoner::getBottom(void) const {
+	TExpressionManager* em = Kernel->getExpressionManager();
+	
+	ReasoningKernel::TConceptExpr* bottom = em->Bottom();
+	
+	Entity *entity = new Entity;
+	entity->entityPointer = bottom;
+	entity->type = ClassType;
+	entity->name = "Bottom Concept";
+	
+	return entity;
 }

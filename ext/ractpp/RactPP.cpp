@@ -27,8 +27,7 @@ along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace Rice;
 
-namespace {
-Rice::Enum<EntityType> entity_enum_type;
+Rice::Enum<EntityType> rb_cEntityType;
 Rice::Data_Type<FaCTReasoner> rb_cRactPP;
 Rice::Data_Type<Entity> rb_cEntity;
 
@@ -43,26 +42,39 @@ Rice::Symbol rb_sObjectPropertyType;
 */
 Symbol entityTypeSymbol(EntityType t) {
 	switch(t) {
-		case Class: return rb_sClassType;
-		case Individual: return rb_sIndividualType;
-		case ObjectProperty: return rb_sObjectPropertyType;
+		case ClassType: return rb_sClassType;
+		case IndividualType: return rb_sIndividualType;
+		case ObjectPropertyType: return rb_sObjectPropertyType;
 	}
 	return rb_sUnknownType;
 }
-}; // namespace
+
+long const getNodeId(const Entity* e) {
+	return (long) e->getEntityPointer();
+}
 
 extern "C"
 void Init_core() {
+
 	/* top level module */
 	Module rb_mRactPP = define_module("RaCTPP");
 	
 	/* define the concept type symbols */
-	rb_sClassType = Symbol(":class");
-	rb_sIndividualType = Symbol(":individual");
-	rb_sUnknownType = Symbol(":unknown");
-	rb_sObjectPropertyType = Symbol(":object_property");
+	rb_sClassType = Symbol("class");
+	rb_sIndividualType = Symbol("individual");
+	rb_sUnknownType = Symbol("unknown");
+	rb_sObjectPropertyType = Symbol("object_property");
 	
-	rb_cEntity = define_class_under<Entity>(rb_mRactPP, "Entity");
+	rb_cEntityType = define_enum<EntityType>("EntityType")
+					.define_value("ClassType", ClassType)
+					.define_value("IndividualType", IndividualType)
+					.define_value("ObjectPropertyType", ObjectPropertyType)
+					.define_method("symbol", &entityTypeSymbol);
+	
+	rb_cEntity = define_class_under<Entity>(rb_mRactPP, "Entity")
+				.define_method("name", &Entity::getName)
+				.define_method("type", &Entity::getType)
+				.define_method("node", &getNodeId);
 	
 	/* define the reasoner class */
 	rb_cRactPP = 
@@ -75,5 +87,7 @@ void Init_core() {
 		.define_method("clear_kb!", &FaCTReasoner::clearKB)
 		.define_method("set_top_bottom_property_names", &FaCTReasoner::setTopBottomPropertyNames)
 		.define_method("classify", &FaCTReasoner::classify)
-		.define_method("realise", &FaCTReasoner::realise);
+		.define_method("realise", &FaCTReasoner::realise)
+		.define_method("top", &FaCTReasoner::getTop)
+		.define_method("bottom", &FaCTReasoner::getBottom);
 }

@@ -56,4 +56,22 @@ describe RaCTPP do
   it "should realise an empty kb without raising an exception" do
     @rpp.realise.should == nil
   end
+  
+  it "should return an entity class for the top concept" do
+    @rpp.top.should_not == nil
+    @rpp.top.name.should == "Top Concept"
+    @rpp.top.type.symbol.should == :class
+    @rpp.top.node.should_not == 0
+  end
+  
+  it "should return an entity class for the bottom concept" do
+    @rpp.bottom.should_not == nil
+    @rpp.bottom.name.should == "Bottom Concept"
+    @rpp.bottom.type.symbol.should == :class
+    @rpp.bottom.node.should_not == 0
+  end
+  
+  it "should have different top and bottom concepts" do
+    @rpp.bottom.should_not == @rpp.top
+  end
 end
