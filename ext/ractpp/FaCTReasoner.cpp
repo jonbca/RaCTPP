@@ -62,3 +62,10 @@ void FaCTReasoner::classify(void) {
 void FaCTReasoner::realise(void) {
 	Kernel->realiseKB();
 }
+
+const void* FaCTReasoner::getTop(void) {
+	TExpressionManager* em = Kernel->getExpressionManager();
+	
+	ReasoningKernel::TConceptExpr* top = em->Top();
+	return top;
+}

@@ -18,17 +18,46 @@ along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "FaCTReasoner.h"
 #include "rice/Data_Type.hpp"
+#include "rice/Class.hpp"
 #include "rice/Constructor.hpp"
 #include "rice/Module.hpp"
 #include "rice/Exception.hpp"
+#include "rice/Enum.hpp"
+#include "rice/Symbol.hpp"
 
 using namespace Rice;
 
+namespace {
+Rice::Enum<EntityType> entity_enum_type;
+Rice::Data_Type<FaCTReasoner> rb_cRactPP;
+Rice::Data_Type<Entity> rb_cEntity;
+
+Rice::Symbol rb_sClassType;
+Rice::Symbol rb_sIndividualType;
+Rice::Symbol rb_sUnknownType;
+Rice::Symbol rb_sObjectPropertyType;
+
+Symbol entityTypeSymbol(EntityType t) {
+	switch(t) {
+		case Class: return rb_sClassType;
+		case Individual: return rb_sIndividualType;
+		case ObjectProperty: return rb_sObjectPropertyType;
+	}
+	return rb_sUnknownType;
+}
+}; // namespace
 extern "C"
 void Init_core() {
 	Module rb_mRactPP = define_module("RaCTPP");
-		
-	Data_Type<FaCTReasoner> rb_cRactPP = 
+	
+	rb_sClassType = Symbol(":class");
+	rb_sIndividualType = Symbol(":individual");
+	rb_sUnknownType = Symbol(":unknown");
+	rb_sObjectPropertyType = Symbol(":object_property");
+	
+	rb_cEntity = define_class_under<Entity>(rb_mRactPP, "Entity");
+	
+	rb_cRactPP = 
 		define_class_under<FaCTReasoner>(rb_mRactPP, "RaCTPP")
 		.define_constructor(Constructor<FaCTReasoner>())
 		.define_method("get_version", &FaCTReasoner::getReasonerVersion)
@@ -38,6 +67,5 @@ void Init_core() {
 		.define_method("clear_kb!", &FaCTReasoner::clearKB)
 		.define_method("set_top_bottom_property_names", &FaCTReasoner::setTopBottomPropertyNames)
 		.define_method("classify", &FaCTReasoner::classify)
-		.define_method("realise", &FaCTReasoner::realise)
-		.define_method("error", &FaCTReasoner::error);
+		.define_method("realise", &FaCTReasoner::realise);
 }

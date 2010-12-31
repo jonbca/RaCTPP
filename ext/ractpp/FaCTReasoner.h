@@ -37,12 +37,26 @@ class ReasoningKernel;
 #include "eFPPTimeout.h"
 #endif
 
+namespace {
+enum EntityType {
+	Class,
+	Individual,
+	ObjectProperty
+};
+
+struct Entity {
+	void* entityPointer;
+	char* name;
+	EntityType type;
+};
+};
+
 class FaCTReasoner {
 private:
 	ReasoningKernel *Kernel;
 	FaCTReasoner(const FaCTReasoner&);      // No copy constructor
 	FaCTReasoner& operator=(FaCTReasoner);  // No assignment
-	
+
 public:
 	FaCTReasoner();
 	~FaCTReasoner();
@@ -64,5 +78,8 @@ public:
 	// Classification
 	void classify(void);
 	void realise(void);
+	
+	// Concepts
+	const void* getTop(void);
 };
 #endif
