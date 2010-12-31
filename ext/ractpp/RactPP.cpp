@@ -32,11 +32,15 @@ Rice::Enum<EntityType> entity_enum_type;
 Rice::Data_Type<FaCTReasoner> rb_cRactPP;
 Rice::Data_Type<Entity> rb_cEntity;
 
+/* Ruby symbols to represent the concept types in an ontology */
 Rice::Symbol rb_sClassType;
 Rice::Symbol rb_sIndividualType;
 Rice::Symbol rb_sUnknownType;
 Rice::Symbol rb_sObjectPropertyType;
 
+/**
+* Map the EntityType enum to a Ruby symbol
+*/
 Symbol entityTypeSymbol(EntityType t) {
 	switch(t) {
 		case Class: return rb_sClassType;
@@ -46,10 +50,13 @@ Symbol entityTypeSymbol(EntityType t) {
 	return rb_sUnknownType;
 }
 }; // namespace
+
 extern "C"
 void Init_core() {
+	/* top level module */
 	Module rb_mRactPP = define_module("RaCTPP");
 	
+	/* define the concept type symbols */
 	rb_sClassType = Symbol(":class");
 	rb_sIndividualType = Symbol(":individual");
 	rb_sUnknownType = Symbol(":unknown");
@@ -57,6 +64,7 @@ void Init_core() {
 	
 	rb_cEntity = define_class_under<Entity>(rb_mRactPP, "Entity");
 	
+	/* define the reasoner class */
 	rb_cRactPP = 
 		define_class_under<FaCTReasoner>(rb_mRactPP, "RaCTPP")
 		.define_constructor(Constructor<FaCTReasoner>())
