@@ -75,6 +75,7 @@ public:
 	// Concepts
 	Entity* getTop(void) const;
 	Entity* getBottom(void) const;
+	Entity* getClassByName(std::string className) const;
 };
 
 struct Entity {

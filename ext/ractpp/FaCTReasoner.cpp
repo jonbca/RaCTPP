@@ -88,3 +88,16 @@ Entity* FaCTReasoner::getBottom(void) const {
 	
 	return entity;
 }
+
+Entity* FaCTReasoner::getClassByName(std::string name) const {
+	TExpressionManager* em = Kernel->getExpressionManager();
+	
+	ReasoningKernel::TConceptExpr* clazz = em->Concept(name);
+	
+	Entity *entity = new Entity;
+	entity->entityPointer = clazz;
+	entity->type = ClassType;
+	entity->name = name;
+	
+	return entity;
+}
