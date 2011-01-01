@@ -34,8 +34,8 @@ const char* FaCTReasoner::getReasonerVersion(void) {
 	return ReasoningKernel::getVersion();
 }
 
-void FaCTReasoner::setTopBottomPropertyNames(const char* topORoleName, const char* botORoleName,
-	const char* topDRoleName, const char* botDRoleName) {
+void FaCTReasoner::setTopBottomPropertyNames(const char* topORoleName,
+	const char* botORoleName, const char* topDRoleName, const char* botDRoleName) {
 	Kernel->setTopBottomRoleNames(topORoleName, botORoleName, topDRoleName, botDRoleName);
 }
 
@@ -71,7 +71,7 @@ Entity* FaCTReasoner::getTop(void) const {
 	Entity *entity = new Entity;
 	entity->entityPointer = top;
 	entity->type = ClassType;
-	entity->name = "Top Concept";
+	entity->name = "Thing";
 	
 	return entity;
 }
@@ -84,7 +84,7 @@ Entity* FaCTReasoner::getBottom(void) const {
 	Entity *entity = new Entity;
 	entity->entityPointer = bottom;
 	entity->type = ClassType;
-	entity->name = "Bottom Concept";
+	entity->name = "Nothing";
 	
 	return entity;
 }
