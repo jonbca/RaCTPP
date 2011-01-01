@@ -84,7 +84,14 @@ private:
 	const void * entityPointer;
 	std::string name;
 	EntityType type;
+	Entity(const Entity &);
+	Entity& operator=(Entity);
 public:
+	Entity(){}
+	~Entity(){}
+	Entity(const void *ep, std::string nm, EntityType t)
+		: entityPointer(ep), name(nm), type(t) {}
+		
 	std::string getName() const {
 		return name;
 	}

@@ -68,10 +68,7 @@ Entity* FaCTReasoner::getTop(void) const {
 	
 	ReasoningKernel::TConceptExpr* top = em->Top();
 	
-	Entity *entity = new Entity;
-	entity->entityPointer = top;
-	entity->type = ClassType;
-	entity->name = "Thing";
+	Entity *entity = new Entity(top, "Thing", ClassType);
 	
 	return entity;
 }
@@ -81,10 +78,7 @@ Entity* FaCTReasoner::getBottom(void) const {
 	
 	ReasoningKernel::TConceptExpr* bottom = em->Bottom();
 	
-	Entity *entity = new Entity;
-	entity->entityPointer = bottom;
-	entity->type = ClassType;
-	entity->name = "Nothing";
+	Entity *entity = new Entity(bottom, "Nothing", ClassType);
 	
 	return entity;
 }
@@ -94,10 +88,7 @@ Entity* FaCTReasoner::getClassByName(std::string name) const {
 	
 	ReasoningKernel::TConceptExpr* clazz = em->Concept(name);
 	
-	Entity *entity = new Entity;
-	entity->entityPointer = clazz;
-	entity->type = ClassType;
-	entity->name = name;
+	Entity *entity = new Entity(clazz, name, ClassType);
 	
 	return entity;
 }

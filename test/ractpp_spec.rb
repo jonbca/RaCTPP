@@ -59,19 +59,27 @@ describe RaCTPP do
   
   it "should return an entity class for the top concept" do
     @rpp.top.should_not == nil
-    @rpp.top.name.should == "Top Concept"
+    @rpp.top.name.should == "Thing"
     @rpp.top.type.symbol.should == :class
     @rpp.top.node.should_not == 0
   end
   
   it "should return an entity class for the bottom concept" do
     @rpp.bottom.should_not == nil
-    @rpp.bottom.name.should == "Bottom Concept"
+    @rpp.bottom.name.should == "Nothing"
     @rpp.bottom.type.symbol.should == :class
     @rpp.bottom.node.should_not == 0
   end
   
   it "should have different top and bottom concepts" do
     @rpp.bottom.should_not == @rpp.top
+  end
+  
+  it "should have the identical result from calling top twice" do
+    @rpp.top.should == @rpp.top
+  end
+  
+  it "should have the identical result from calling bottom twice" do
+    @rpp.bottom.should == @rpp.bottom
   end
 end
