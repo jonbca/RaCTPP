@@ -63,7 +63,7 @@ void FaCTReasoner::realise(void) {
 	Kernel->realiseKB();
 }
 
-Entity* FaCTReasoner::getTop(void) const {
+Entity* FaCTReasoner::getTop(void) {
 	TExpressionManager* em = Kernel->getExpressionManager();
 	
 	ReasoningKernel::TConceptExpr* top = em->Top();
@@ -73,7 +73,7 @@ Entity* FaCTReasoner::getTop(void) const {
 	return entity;
 }
 
-Entity* FaCTReasoner::getBottom(void) const {
+Entity* FaCTReasoner::getBottom(void) {
 	TExpressionManager* em = Kernel->getExpressionManager();
 	
 	ReasoningKernel::TConceptExpr* bottom = em->Bottom();
@@ -83,12 +83,44 @@ Entity* FaCTReasoner::getBottom(void) const {
 	return entity;
 }
 
-Entity* FaCTReasoner::getClassByName(std::string name) const {
+Entity* FaCTReasoner::getClassByName(std::string name) {
 	TExpressionManager* em = Kernel->getExpressionManager();
 	
-	ReasoningKernel::TConceptExpr* clazz = em->Concept(name);
+	ReasoningKernel::TConceptExpr* clazz = em->Concept(name.c_str());
 	
 	Entity *entity = new Entity(clazz, name, ClassType);
 	
+	return entity;
+}
+
+Entity* FaCTReasoner::getTopObjectProperty(void) {
+	TExpressionManager* em = Kernel->getExpressionManager();
+	
+	ReasoningKernel::TORoleExpr* orole =
+		em->ObjectRole("http://www.w3.org/2002/07/owl#topObjectProperty");
+	Entity *entity = new Entity(orole, "http://www.w3.org/2002/07/owl#topObjectProperty",
+	 				 ObjectPropertyType);
+	
+	return entity;
+}
+
+Entity* FaCTReasoner::getBottomObjectProperty(void) {
+	TExpressionManager* em = Kernel->getExpressionManager();
+	
+	ReasoningKernel::TORoleExpr* orole =
+		em->ObjectRole("http://www.w3.org/2002/07/owl#bottomObjectProperty");
+	Entity *entity = new Entity(orole, "http://www.w3.org/2002/07/owl#bottomObjectProperty",
+	 				 ObjectPropertyType);
+	
+	return entity;
+}
+
+Entity* FaCTReasoner::getObjectProperty(std::string name) {
+	TExpressionManager* em = Kernel->getExpressionManager();
+	
+	ReasoningKernel::TORoleExpr* orole = 
+		em->ObjectRole(name.c_str());
+	
+	Entity *entity = new Entity(orole, name.c_str(), ObjectPropertyType);
 	return entity;
 }

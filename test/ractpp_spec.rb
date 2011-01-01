@@ -26,19 +26,19 @@ describe RaCTPP do
   end
   
   it "should have reasoner version 1.5.0" do
-    @rpp.get_version.should == "1.5.0"
+    @rpp.version.should == "1.5.0"
   end
   
   it "should not be pre-processed when no ontology is present" do
-    @rpp.kb_preprocessed?.should == false
+    @rpp.preprocessed?.should == false
   end
   
   it "should not be classified when no ontology is present" do
-    @rpp.kb_classified?.should == false
+    @rpp.classified?.should == false
   end
   
   it "should not be realised when no ontology is present" do
-    @rpp.kb_realised?.should == false
+    @rpp.realised?.should == false
   end
   
   it "should clear the knowledge base" do
@@ -81,5 +81,21 @@ describe RaCTPP do
   
   it "should have the identical result from calling bottom twice" do
     @rpp.bottom.should == @rpp.bottom
+  end
+  
+  it "should return identical objects for the same class name" do
+    @rpp.class_named("idontexist").should == @rpp.class_named("idontexist")
+    @rpp.class_named("idontexist").name.should == "idontexist"
+    @rpp.class_named("idontexist").type.symbol.should == :class
+  end
+  
+  it "should return a top object property" do
+    @rpp.top_object_property.name.should == "http://www.w3.org/2002/07/owl#topObjectProperty"
+    @rpp.top_object_property.type.symbol.should == :object_property
+  end
+  
+  it "should return a bottom object property" do
+    @rpp.bottom_object_property.name.should == "http://www.w3.org/2002/07/owl#bottomObjectProperty"
+    @rpp.bottom_object_property.type.symbol.should == :object_property
   end
 end

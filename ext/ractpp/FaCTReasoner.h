@@ -19,6 +19,7 @@ along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KERNEL_REASONER_SEEN
 #define KERNEL_REASONER_SEEN
 #include <string>
+#include <sstream>
 
 #ifdef NEED_KERNEL_H
 #include "Kernel.h"
@@ -43,6 +44,12 @@ enum EntityType {
 	IndividualType,
 	ObjectPropertyType
 };
+
+static std::string EntityTypes[] = {
+		"class",
+		"individual",
+		"object_property"
+	};
 
 class FaCTReasoner {
 private:
@@ -73,9 +80,14 @@ public:
 	void realise(void);
 	
 	// Concepts
-	Entity* getTop(void) const;
-	Entity* getBottom(void) const;
-	Entity* getClassByName(std::string className) const;
+	Entity* getTop(void);
+	Entity* getBottom(void);
+	Entity* getClassByName(std::string className);
+	
+	Entity* getTopObjectProperty(void);
+	Entity* getBottomObjectProperty(void);
+	
+	Entity* getObjectProperty(std::string name);
 };
 
 struct Entity {
@@ -102,6 +114,16 @@ public:
 	
 	const void * const getEntityPointer() const {
 		return entityPointer;
+	}
+	
+	std::string const to_s() const {
+		std::stringstream sstr;
+		char epstr[16];
+		
+		snprintf(epstr, 16, "%p", entityPointer);
+		
+		sstr << name << " " << EntityTypes[type] << "<" << epstr << ">";
+		return sstr.str();
 	}
 };
 #endif
