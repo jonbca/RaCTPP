@@ -93,28 +93,6 @@ Entity* FaCTReasoner::getClassByName(std::string name) {
 	return entity;
 }
 
-Entity* FaCTReasoner::getTopObjectProperty(void) {
-	TExpressionManager* em = Kernel->getExpressionManager();
-	
-	ReasoningKernel::TORoleExpr* orole =
-		em->ObjectRole("http://www.w3.org/2002/07/owl#topObjectProperty");
-	Entity *entity = new Entity(orole, "http://www.w3.org/2002/07/owl#topObjectProperty",
-	 				 ObjectPropertyType);
-	
-	return entity;
-}
-
-Entity* FaCTReasoner::getBottomObjectProperty(void) {
-	TExpressionManager* em = Kernel->getExpressionManager();
-	
-	ReasoningKernel::TORoleExpr* orole =
-		em->ObjectRole("http://www.w3.org/2002/07/owl#bottomObjectProperty");
-	Entity *entity = new Entity(orole, "http://www.w3.org/2002/07/owl#bottomObjectProperty",
-	 				 ObjectPropertyType);
-	
-	return entity;
-}
-
 Entity* FaCTReasoner::getObjectProperty(std::string name) {
 	TExpressionManager* em = Kernel->getExpressionManager();
 	
@@ -123,4 +101,30 @@ Entity* FaCTReasoner::getObjectProperty(std::string name) {
 	
 	Entity *entity = new Entity(orole, name.c_str(), ObjectPropertyType);
 	return entity;
+}
+
+Entity* FaCTReasoner::getTopObjectProperty(void) {
+	return getObjectProperty("http://www.w3.org/2002/07/owl#topObjectProperty");
+}
+
+Entity* FaCTReasoner::getBottomObjectProperty(void) {
+	return getObjectProperty("http://www.w3.org/2002/07/owl#bottomObjectProperty");
+}
+
+Entity* FaCTReasoner::getDataProperty(std::string name) {
+	TExpressionManager* em = Kernel->getExpressionManager();
+	
+	ReasoningKernel::TDRoleExpr* drole =
+		em->DataRole(name.c_str());
+	Entity *entity = new Entity(drole, name.c_str(), DataPropertyType);
+	
+	return entity;
+}
+
+Entity* FaCTReasoner::getTopDataProperty(void) {
+	return getDataProperty("http://www.w3.org/2002/07/owl#topDataProperty");
+}
+
+Entity* FaCTReasoner::getBottomDataProperty(void) {
+	return getDataProperty("http://www.w3.org/2002/07/owl#bottomDataProperty");
 }

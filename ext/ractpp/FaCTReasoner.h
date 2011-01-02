@@ -42,13 +42,15 @@ struct Entity;
 enum EntityType {
 	ClassType,
 	IndividualType,
-	ObjectPropertyType
+	ObjectPropertyType,
+	DataPropertyType
 };
 
 static std::string EntityTypes[] = {
 		"class",
 		"individual",
-		"object_property"
+		"object_property",
+		"data_property"
 	};
 
 class FaCTReasoner {
@@ -88,6 +90,10 @@ public:
 	Entity* getBottomObjectProperty(void);
 	
 	Entity* getObjectProperty(std::string name);
+	
+	Entity* getTopDataProperty(void);
+	Entity* getBottomDataProperty(void);
+	Entity* getDataProperty(std::string name);
 };
 
 struct Entity {

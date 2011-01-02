@@ -36,6 +36,7 @@ Rice::Symbol rb_sClassType;
 Rice::Symbol rb_sIndividualType;
 Rice::Symbol rb_sUnknownType;
 Rice::Symbol rb_sObjectPropertyType;
+Rice::Symbol rb_sDataPropertyType;
 
 /**
 * Map the EntityType enum to a Ruby symbol
@@ -45,6 +46,7 @@ Symbol entityTypeSymbol(EntityType t) {
 		case ClassType: return rb_sClassType;
 		case IndividualType: return rb_sIndividualType;
 		case ObjectPropertyType: return rb_sObjectPropertyType;
+		case DataPropertyType: return rb_sDataPropertyType;
 	}
 	return rb_sUnknownType;
 }
@@ -93,11 +95,13 @@ void Init_core() {
 	rb_sIndividualType = Symbol(EntityTypes[IndividualType].c_str());
 	rb_sUnknownType = Symbol("unknown");
 	rb_sObjectPropertyType = Symbol(EntityTypes[ObjectPropertyType].c_str());
+	rb_sDataPropertyType = Symbol(EntityTypes[DataPropertyType].c_str());
 	
 	rb_cEntityType = define_enum<EntityType>("EntityType")
 					.define_value(EntityTypes[ClassType].c_str(), ClassType)
 					.define_value(EntityTypes[IndividualType].c_str(), IndividualType)
 					.define_value(EntityTypes[ObjectPropertyType].c_str(), ObjectPropertyType)
+					.define_value(EntityTypes[DataPropertyType].c_str(), DataPropertyType)
 					.define_method("symbol", &entityTypeSymbol);
 	
 	rb_cEntity = define_class_under<Entity>(rb_mRactPP, "Entity")
@@ -126,5 +130,8 @@ void Init_core() {
 		.define_method("class_named", &FaCTReasoner::getClassByName)
 		.define_method("top_object_property", &FaCTReasoner::getTopObjectProperty)
 		.define_method("bottom_object_property", &FaCTReasoner::getBottomObjectProperty)
-		.define_method("object_property", &FaCTReasoner::getObjectProperty);
+		.define_method("object_property", &FaCTReasoner::getObjectProperty)
+		.define_method("top_data_property", &FaCTReasoner::getTopDataProperty)
+		.define_method("bottom_data_property", &FaCTReasoner::getBottomDataProperty)
+		.define_method("data_property", &FaCTReasoner::getDataProperty);
 }

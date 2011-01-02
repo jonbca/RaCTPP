@@ -98,4 +98,26 @@ describe RaCTPP do
     @rpp.bottom_object_property.name.should == "http://www.w3.org/2002/07/owl#bottomObjectProperty"
     @rpp.bottom_object_property.type.symbol.should == :object_property
   end
+  
+  it "should return an object property" do
+    @rpp.object_property("test_property").name.should == "test_property"
+    @rpp.object_property("test_property").type.symbol.should == :object_property
+    @rpp.object_property("test_property").should == @rpp.object_property("test_property")
+  end
+  
+  it "should return a top data property" do
+    @rpp.top_data_property.name.should == "http://www.w3.org/2002/07/owl#topDataProperty"
+    @rpp.top_data_property.type.symbol.should == :data_property
+  end
+  
+  it "should return a bottom data property" do
+    @rpp.bottom_data_property.name.should == "http://www.w3.org/2002/07/owl#bottomDataProperty"
+    @rpp.bottom_data_property.type.symbol.should == :data_property
+  end
+  
+  it "should return a data property" do
+    @rpp.data_property("test_property").name.should == "test_property"
+    @rpp.data_property("test_property").type.symbol.should == :data_property
+    @rpp.data_property("test_property").should == @rpp.data_property("test_property")
+  end
 end
