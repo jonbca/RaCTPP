@@ -27,16 +27,16 @@ along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 
 using namespace Rice;
 
-Rice::Enum<EntityType> rb_cEntityType;
-Rice::Data_Type<FaCTReasoner> rb_cRactPP;
-Rice::Data_Type<Entity> rb_cEntity;
+Enum<EntityType> rb_cEntityType;
+Data_Type<FaCTReasoner> rb_cRactPP;
+Data_Type<Entity> rb_cEntity;
 
 /* Ruby symbols to represent the concept types in an ontology */
-Rice::Symbol rb_sClassType;
-Rice::Symbol rb_sIndividualType;
-Rice::Symbol rb_sUnknownType;
-Rice::Symbol rb_sObjectPropertyType;
-Rice::Symbol rb_sDataPropertyType;
+Symbol rb_sClassType;
+Symbol rb_sIndividualType;
+Symbol rb_sUnknownType;
+Symbol rb_sObjectPropertyType;
+Symbol rb_sDataPropertyType;
 
 /**
 * Map the EntityType enum to a Ruby symbol
