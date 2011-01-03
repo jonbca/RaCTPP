@@ -37,6 +37,7 @@ Symbol rb_sIndividualType;
 Symbol rb_sUnknownType;
 Symbol rb_sObjectPropertyType;
 Symbol rb_sDataPropertyType;
+Symbol rb_sDataTypeType;
 
 /**
 * Map the EntityType enum to a Ruby symbol
@@ -47,6 +48,7 @@ Symbol entityTypeSymbol(EntityType t) {
 		case IndividualType: return rb_sIndividualType;
 		case ObjectPropertyType: return rb_sObjectPropertyType;
 		case DataPropertyType: return rb_sDataPropertyType;
+		case DataTypeType: return rb_sDataTypeType;
 	}
 	return rb_sUnknownType;
 }
@@ -96,6 +98,7 @@ void Init_core() {
 	rb_sUnknownType = Symbol("unknown");
 	rb_sObjectPropertyType = Symbol(EntityTypes[ObjectPropertyType].c_str());
 	rb_sDataPropertyType = Symbol(EntityTypes[DataPropertyType].c_str());
+	rb_sDataTypeType = Symbol(EntityTypes[DataTypeType].c_str());
 	
 	rb_cEntityType = define_enum<EntityType>("EntityType")
 					.define_value(EntityTypes[ClassType].c_str(), ClassType)
@@ -133,5 +136,7 @@ void Init_core() {
 		.define_method("object_property", &FaCTReasoner::getObjectProperty)
 		.define_method("top_data_property", &FaCTReasoner::getTopDataProperty)
 		.define_method("bottom_data_property", &FaCTReasoner::getBottomDataProperty)
-		.define_method("data_property", &FaCTReasoner::getDataProperty);
+		.define_method("data_property", &FaCTReasoner::getDataProperty)
+		.define_method("individual", &FaCTReasoner::getIndividual)
+		.define_method("data_type", &FaCTReasoner::getBuiltInDataType);
 }

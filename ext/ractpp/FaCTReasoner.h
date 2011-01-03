@@ -20,6 +20,7 @@ along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 #define KERNEL_REASONER_SEEN
 #include <string>
 #include <sstream>
+#include <stdexcept>
 
 #ifdef NEED_KERNEL_H
 #include "Kernel.h"
@@ -43,14 +44,16 @@ enum EntityType {
 	ClassType,
 	IndividualType,
 	ObjectPropertyType,
-	DataPropertyType
+	DataPropertyType,
+	DataTypeType
 };
 
 static std::string EntityTypes[] = {
 		"class",
 		"individual",
 		"object_property",
-		"data_property"
+		"data_property",
+		"data_type"
 	};
 
 class FaCTReasoner {
@@ -94,6 +97,10 @@ public:
 	Entity* getTopDataProperty(void);
 	Entity* getBottomDataProperty(void);
 	Entity* getDataProperty(std::string name);
+		
+	Entity* getIndividual(std::string name);
+	
+	Entity* getBuiltInDataType(std::string name);
 };
 
 struct Entity {
@@ -131,5 +138,11 @@ public:
 		sstr << name << " " << EntityTypes[type] << "<" << epstr << ">";
 		return sstr.str();
 	}
+};
+
+class RaCTPPException : public std::runtime_error {
+public:
+	explicit RaCTPPException(const std::string& reason)
+		: std::runtime_error(reason) {}
 };
 #endif

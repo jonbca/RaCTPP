@@ -128,3 +128,41 @@ Entity* FaCTReasoner::getTopDataProperty(void) {
 Entity* FaCTReasoner::getBottomDataProperty(void) {
 	return getDataProperty("http://www.w3.org/2002/07/owl#bottomDataProperty");
 }
+
+Entity* FaCTReasoner::getIndividual(std::string name) {
+	TExpressionManager *em = Kernel->getExpressionManager();
+	
+	ReasoningKernel::TIndividualExpr* indiv =
+		em->Individual(name);
+		
+	Entity *entity = new Entity(indiv, name.c_str(), IndividualType);
+	return entity;
+}
+
+static Entity* const makeEntityForDataType(TExpressionManager *em, std::string& name) {
+	if(    name == "http://www.w3.org/2000/01/rdf-schema#Literal"
+		|| name == "http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral"
+		|| name == "http://www.w3.org/2001/XMLSchema#string"
+		|| name == "http://www.w3.org/2001/XMLSchema#anyURI" ) {
+			return new Entity(em->getStrDataType(), name, DataTypeType);
+	} else if (	   name == "http://www.w3.org/2001/XMLSchema#integer" 
+				|| name == "http://www.w3.org/2001/XMLSchema#int"
+				|| name == "http://www.w3.org/2001/XMLSchema#nonNegativeInteger") {
+			return new Entity(em->getIntDataType(), name, DataTypeType);
+	} else if (    name == "http://www.w3.org/2001/XMLSchema#float"
+				|| name == "http://www.w3.org/2001/XMLSchema#double") {
+			return new Entity(em->getRealDataType(), name, DataTypeType);
+	} else if (    name == "http://www.w3.org/2001/XMLSchema#boolean") {
+			return new Entity(em->getBoolDataType(), name, DataTypeType);
+	}
+	
+	std::stringstream err;
+	err << "Unsupported datatype '" << name.c_str() << "'";
+	
+	throw RaCTPPException(err.str());
+}
+
+Entity* FaCTReasoner::getBuiltInDataType(std::string name) {
+	TExpressionManager *em = Kernel->getExpressionManager();
+	return makeEntityForDataType(em, name);
+}
