@@ -38,7 +38,7 @@ class ReasoningKernel;
 #include "eFPPTimeout.h"
 #endif
 
-struct Entity;
+class Entity;
 
 enum EntityType {
 	ClassType,
@@ -103,10 +103,10 @@ public:
 	Entity* getBuiltInDataType(std::string name);
 };
 
-struct Entity {
+class Entity {
 	friend class FaCTReasoner;
 private:
-	const void * entityPointer;
+	const void* entityPointer;
 	std::string name;
 	EntityType type;
 	Entity(const Entity &);
@@ -125,7 +125,7 @@ public:
 		return type;
 	}
 	
-	const void * const getEntityPointer() const {
+	const void* getEntityPointer() const {
 		return entityPointer;
 	}
 	
@@ -142,7 +142,7 @@ public:
 
 class RaCTPPException : public std::runtime_error {
 public:
-	explicit RaCTPPException(const std::string& reason)
+	explicit RaCTPPException(std::string const & reason)
 		: std::runtime_error(reason) {}
 };
 #endif
