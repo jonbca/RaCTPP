@@ -184,11 +184,23 @@ Entity* FaCTReasoner::getDataTop(void) {
 
 Entity* FaCTReasoner::getDataEnumeration(void) {
 	TExpressionManager *em = Kernel->getExpressionManager();
-	return new Entity(em->DataOneOf(), "DataOneOf", DataTypeType);
+	
+	throw RaCTPPException("getDataEnumeration not yet implemented.");
+	
+	//return new Entity(em->DataOneOf(), "DataOneOf", DataTypeExpressionType);
 }
 
 Entity* FaCTReasoner::getRestrictedDataType(Entity* datatype, Entity* facet) {
-	return NULL;
+	TExpressionManager *em = Kernel->getExpressionManager();
+	std::stringstream name;
+	
+	name << "Restricted Type: " << datatype->name << " " << facet->name;
+	
+	return new Entity(
+		em->RestrictedType(const_cast<TDLDataTypeExpression*>(unpackageROEntity<TDLDataTypeExpression>(datatype)), unpackageROEntity<TDLFacetExpression>(facet)),
+		name.str(),
+		DataTypeExpressionType
+	);
 }
 
 Entity* FaCTReasoner::getMinExclusiveFacet(Entity* value) {

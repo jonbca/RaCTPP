@@ -120,6 +120,12 @@ void Init_core() {
 		.define_method("bottom_data_property", &FaCTReasoner::getBottomDataProperty)
 		.define_method("data_property", &FaCTReasoner::getDataProperty)
 		.define_method("individual", &FaCTReasoner::getIndividual)
+		.define_method("one_of", &FaCTReasoner::getDataEnumeration)
+		.define_method("restriction", &FaCTReasoner::getRestrictedDataType)
 		.define_method("data_type", &FaCTReasoner::getBuiltInDataType)
-		.define_method("data_value", &FaCTReasoner::getDataValue);
+		.define_method("data_value", &FaCTReasoner::getDataValue)
+		.define_method("min_inclusive_facet", &FaCTReasoner::getMinInclusiveFacet)
+		.define_method("min_exclusive_facet", &FaCTReasoner::getMinExclusiveFacet)
+		.define_method("max_inclusive_facet", &FaCTReasoner::getMaxInclusiveFacet)
+		.define_method("max_exclusive_facet", &FaCTReasoner::getMaxExclusiveFacet);
 }

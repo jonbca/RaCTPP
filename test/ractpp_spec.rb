@@ -187,6 +187,12 @@ describe RaCTPP do
     lambda { @rpp.data_type "http://unknown.com/error/thing" }.should raise_error
   end
   
+  it "should get an expression for one_of" do
+    @rpp.one_of.should_not == nil
+    @rpp.one_of.name.should == "DataOneOf"
+    @rpp.one_of.type.symbol.should == :data_type_expression
+  end
+  
   it "should give a data value for a predefined data type with string argument" do
     dt = @rpp.data_type("http://www.w3.org/2001/XMLSchema#integer")
     dv = @rpp.data_value("3", dt)
@@ -194,5 +200,49 @@ describe RaCTPP do
     dv.node.should_not == nil
     dv.name.should == "3"
     dv.type.symbol.should == :data_value
+  end
+  
+  it "should get a min inclusive facet" do
+    dt = @rpp.data_type("http://www.w3.org/2001/XMLSchema#integer")
+    dv = @rpp.data_value("3", dt)
+    
+    df = @rpp.min_inclusive_facet dv
+    df.node.should_not == nil
+    df.name.should == "min: 3"
+    df.type.symbol.should == :data_type_facet
+  end
+  
+  it "should get a max inclusive facet" do
+    dt = @rpp.data_type("http://www.w3.org/2001/XMLSchema#integer")
+    dv = @rpp.data_value("7", dt)
+    
+    df = @rpp.max_inclusive_facet dv
+    df.node.should_not == nil
+    df.name.should == "max: 7"
+    df.type.symbol.should == :data_type_facet
+  end
+  
+  it "should get a min exclusive facet" do
+    dt = @rpp.data_type("http://www.w3.org/2001/XMLSchema#integer")
+    dv = @rpp.data_value("3", dt)
+    
+    df = @rpp.min_exclusive_facet dv
+    df.node.should_not == nil
+    df.name.should == "xmin: 3"
+    df.type.symbol.should == :data_type_facet
+  end
+  
+  it "should get a max exclusive facet" do
+    dt = @rpp.data_type("http://www.w3.org/2001/XMLSchema#integer")
+    dv = @rpp.data_value("3", dt)
+    
+    df = @rpp.max_exclusive_facet dv
+    df.node.should_not == nil
+    df.name.should == "xmax: 3"
+    df.type.symbol.should == :data_type_facet
+  end
+  
+  it "should get a restricted data type" do
+    
   end
 end
