@@ -45,7 +45,11 @@ enum EntityType {
 	IndividualType,
 	ObjectPropertyType,
 	DataPropertyType,
-	DataTypeType
+	DataTypeType,
+	DataTypeExpressionType,
+	AxiomType,
+	DataTypeFacetType,
+	DataValueType
 };
 
 static std::string EntityTypes[] = {
@@ -53,7 +57,11 @@ static std::string EntityTypes[] = {
 		"individual",
 		"object_property",
 		"data_property",
-		"data_type"
+		"data_type",
+		"data_type_expression",
+		"axiom",
+		"data_type_facet",
+		"data_value"
 	};
 
 class FaCTReasoner {
@@ -87,20 +95,28 @@ public:
 	// Concepts
 	Entity* getTop(void);
 	Entity* getBottom(void);
-	Entity* getClassByName(std::string className);
+	Entity* getClassByName(std::string const &className);
 	
 	Entity* getTopObjectProperty(void);
 	Entity* getBottomObjectProperty(void);
 	
-	Entity* getObjectProperty(std::string name);
+	Entity* getObjectProperty(std::string const &name);
 	
 	Entity* getTopDataProperty(void);
 	Entity* getBottomDataProperty(void);
-	Entity* getDataProperty(std::string name);
+	Entity* getDataProperty(std::string const &name);
 		
-	Entity* getIndividual(std::string name);
+	Entity* getIndividual(std::string const &name);
 	
-	Entity* getBuiltInDataType(std::string name);
+	Entity* getBuiltInDataType(std::string const &name);
+	
+	Entity* getDataTop(void);
+	Entity* getDataEnumeration(void);
+	Entity* getRestrictedDataType(Entity* datatype, Entity* facet);
+	Entity* getMinExclusiveFacet(void);
+	Entity* getMaxExclusiveFacet(void);
+	Entity* getMinInclusiveFacet(void);
+	Entity* getMaxInclusiveFacet(void);
 };
 
 class Entity {
@@ -142,7 +158,7 @@ public:
 
 class RaCTPPException : public std::runtime_error {
 public:
-	explicit RaCTPPException(std::string const & reason)
+	explicit RaCTPPException(std::string const &reason)
 		: std::runtime_error(reason) {}
 };
 #endif

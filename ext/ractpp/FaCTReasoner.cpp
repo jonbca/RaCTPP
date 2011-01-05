@@ -20,6 +20,16 @@ along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 #define NEED_KERNEL_H
 #include "FaCTReasoner.h"
 
+template <typename T>
+static T* unpackageEntity(Entity* const e) {
+	return dynamic_cast<T*>((ReasoningKernel::TExpr*)e->getEntityPointer());
+}
+
+template <typename T>
+static const T* unpackageROEntity(Entity* const e) {
+	return dynamic_cast<const T*>((const ReasoningKernel::TExpr*)e->getEntityPointer());
+}
+
 FaCTReasoner::FaCTReasoner()
 	: Kernel(new ReasoningKernel)
 {
@@ -83,7 +93,7 @@ Entity* FaCTReasoner::getBottom(void) {
 	return entity;
 }
 
-Entity* FaCTReasoner::getClassByName(std::string name) {
+Entity* FaCTReasoner::getClassByName(std::string const &name) {
 	TExpressionManager* em = Kernel->getExpressionManager();
 	
 	ReasoningKernel::TConceptExpr* clazz = em->Concept(name.c_str());
@@ -93,7 +103,7 @@ Entity* FaCTReasoner::getClassByName(std::string name) {
 	return entity;
 }
 
-Entity* FaCTReasoner::getObjectProperty(std::string name) {
+Entity* FaCTReasoner::getObjectProperty(std::string const &name) {
 	TExpressionManager* em = Kernel->getExpressionManager();
 	
 	ReasoningKernel::TORoleExpr* orole = 
@@ -111,7 +121,7 @@ Entity* FaCTReasoner::getBottomObjectProperty(void) {
 	return getObjectProperty("http://www.w3.org/2002/07/owl#bottomObjectProperty");
 }
 
-Entity* FaCTReasoner::getDataProperty(std::string name) {
+Entity* FaCTReasoner::getDataProperty(std::string const &name) {
 	TExpressionManager* em = Kernel->getExpressionManager();
 	
 	ReasoningKernel::TDRoleExpr* drole =
@@ -129,7 +139,7 @@ Entity* FaCTReasoner::getBottomDataProperty(void) {
 	return getDataProperty("http://www.w3.org/2002/07/owl#bottomDataProperty");
 }
 
-Entity* FaCTReasoner::getIndividual(std::string name) {
+Entity* FaCTReasoner::getIndividual(std::string const &name) {
 	TExpressionManager *em = Kernel->getExpressionManager();
 	
 	ReasoningKernel::TIndividualExpr* indiv =
@@ -139,7 +149,7 @@ Entity* FaCTReasoner::getIndividual(std::string name) {
 	return entity;
 }
 
-static Entity* const makeEntityForDataType(TExpressionManager *em, std::string& name) {
+static Entity* const makeEntityForDataType(TExpressionManager *em, std::string const &name) {
 	if(    name == "http://www.w3.org/2000/01/rdf-schema#Literal"
 		|| name == "http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral"
 		|| name == "http://www.w3.org/2001/XMLSchema#string"
@@ -162,7 +172,36 @@ static Entity* const makeEntityForDataType(TExpressionManager *em, std::string& 
 	throw RaCTPPException(err.str());
 }
 
-Entity* FaCTReasoner::getBuiltInDataType(std::string name) {
+Entity* FaCTReasoner::getBuiltInDataType(std::string const &name) {
 	TExpressionManager *em = Kernel->getExpressionManager();
 	return makeEntityForDataType(em, name);
+}
+
+Entity* FaCTReasoner::getDataTop(void) {
+	TExpressionManager *em = Kernel->getExpressionManager();
+	Entity* entity = new Entity(em->DataTop(), "DataTop", DataTypeType);
+}
+
+Entity* FaCTReasoner::getDataEnumeration(void) {
+	
+}
+
+Entity* FaCTReasoner::getRestrictedDataType(Entity* datatype, Entity* facet) {
+	
+}
+
+Entity* FaCTReasoner::getMinExclusiveFacet(void) {
+	
+}
+
+Entity* FaCTReasoner::getMaxExclusiveFacet(void) {
+	
+}
+
+Entity* FaCTReasoner::getMinInclusiveFacet(void) {
+	
+}
+
+Entity* FaCTReasoner::getMaxInclusiveFacet(void) {
+	
 }

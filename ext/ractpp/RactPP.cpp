@@ -31,31 +31,16 @@ Enum<EntityType> rb_cEntityType;
 Data_Type<FaCTReasoner> rb_cRactPP;
 Data_Type<Entity> rb_cEntity;
 
-/* Ruby symbols to represent the concept types in an ontology */
-Symbol rb_sClassType;
-Symbol rb_sIndividualType;
-Symbol rb_sUnknownType;
-Symbol rb_sObjectPropertyType;
-Symbol rb_sDataPropertyType;
-Symbol rb_sDataTypeType;
-
 /**
 * Map the EntityType enum to a Ruby symbol
 */
 Symbol entityTypeSymbol(EntityType t) {
-	switch(t) {
-		case ClassType: return rb_sClassType;
-		case IndividualType: return rb_sIndividualType;
-		case ObjectPropertyType: return rb_sObjectPropertyType;
-		case DataPropertyType: return rb_sDataPropertyType;
-		case DataTypeType: return rb_sDataTypeType;
-	}
-	return rb_sUnknownType;
+	return Symbol(EntityTypes[t].c_str());
 }
 
 /* Convert the entity pointer into a long for Ruby consumption */
-long const getNodeId(const Entity* e) {
-	return reinterpret_cast<long>(e->getEntityPointer());
+long getNodeId(Entity const &e) {
+	return reinterpret_cast<long>(e.getEntityPointer());
 }
 
 /*
@@ -92,19 +77,17 @@ void Init_core() {
 	/* top level module */
 	Module rb_mRactPP = define_module("RaCTPP");
 	
-	/* define the concept type symbols */
-	rb_sClassType = Symbol(EntityTypes[ClassType].c_str());
-	rb_sIndividualType = Symbol(EntityTypes[IndividualType].c_str());
-	rb_sUnknownType = Symbol("unknown");
-	rb_sObjectPropertyType = Symbol(EntityTypes[ObjectPropertyType].c_str());
-	rb_sDataPropertyType = Symbol(EntityTypes[DataPropertyType].c_str());
-	rb_sDataTypeType = Symbol(EntityTypes[DataTypeType].c_str());
-	
 	rb_cEntityType = define_enum<EntityType>("EntityType")
 					.define_value(EntityTypes[ClassType].c_str(), ClassType)
 					.define_value(EntityTypes[IndividualType].c_str(), IndividualType)
 					.define_value(EntityTypes[ObjectPropertyType].c_str(), ObjectPropertyType)
 					.define_value(EntityTypes[DataPropertyType].c_str(), DataPropertyType)
+					.define_value(EntityTypes[DataTypeType].c_str(), DataTypeType)
+					.define_value(EntityTypes[DataTypeExpressionType].c_str(), DataTypeExpressionType)
+					.define_value(EntityTypes[AxiomType].c_str(), AxiomType)
+					.define_value(EntityTypes[DataTypeFacetType].c_str(), DataTypeFacetType)
+					.define_value(EntityTypes[DataValueType].c_str(), DataValueType)
+					.define_value(EntityTypes[IndividualType].c_str(), IndividualType)
 					.define_method("symbol", &entityTypeSymbol);
 	
 	rb_cEntity = define_class_under<Entity>(rb_mRactPP, "Entity")
