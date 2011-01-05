@@ -127,10 +127,6 @@ describe RaCTPP do
     @rpp.individual("test_individual").should == @rpp.individual("test_individual")
   end
   
-  it "should not allow comparison between individual and data_property" do
-    lambda {@rpp.individual("test_individual_2") == @rpp.data_property("test_property2")}.should raise_error
-  end
-  
   it "should get a data type for each string URI" do
     # test strings
     arr = ["http://www.w3.org/2000/01/rdf-schema#Literal",
