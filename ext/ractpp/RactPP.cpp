@@ -87,7 +87,6 @@ void Init_core() {
 					.define_value(EntityTypes[AxiomType].c_str(), AxiomType)
 					.define_value(EntityTypes[DataTypeFacetType].c_str(), DataTypeFacetType)
 					.define_value(EntityTypes[DataValueType].c_str(), DataValueType)
-					.define_value(EntityTypes[IndividualType].c_str(), IndividualType)
 					.define_method("symbol", &entityTypeSymbol);
 	
 	rb_cEntity = define_class_under<Entity>(rb_mRactPP, "Entity")
@@ -98,7 +97,7 @@ void Init_core() {
 				.define_method("eql?", &entityEquals)
 				.define_method("inspect", &Entity::to_s)
 				.define_method("to_s", &Entity::to_s);
-	
+
 	/* define the reasoner class */
 	rb_cRactPP = 
 		define_class_under<FaCTReasoner>(rb_mRactPP, "RaCTPP")
@@ -121,5 +120,6 @@ void Init_core() {
 		.define_method("bottom_data_property", &FaCTReasoner::getBottomDataProperty)
 		.define_method("data_property", &FaCTReasoner::getDataProperty)
 		.define_method("individual", &FaCTReasoner::getIndividual)
-		.define_method("data_type", &FaCTReasoner::getBuiltInDataType);
+		.define_method("data_type", &FaCTReasoner::getBuiltInDataType)
+		.define_method("data_value", &FaCTReasoner::getDataValue);
 }

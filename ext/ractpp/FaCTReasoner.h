@@ -113,10 +113,12 @@ public:
 	Entity* getDataTop(void);
 	Entity* getDataEnumeration(void);
 	Entity* getRestrictedDataType(Entity* datatype, Entity* facet);
-	Entity* getMinExclusiveFacet(void);
-	Entity* getMaxExclusiveFacet(void);
-	Entity* getMinInclusiveFacet(void);
-	Entity* getMaxInclusiveFacet(void);
+	Entity* getMinExclusiveFacet(Entity* value);
+	Entity* getMaxExclusiveFacet(Entity* value);
+	Entity* getMinInclusiveFacet(Entity* value);
+	Entity* getMaxInclusiveFacet(Entity* value);
+	
+	Entity* getDataValue(std::string const &name, Entity* type);
 };
 
 class Entity {

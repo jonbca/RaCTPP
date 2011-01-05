@@ -186,4 +186,13 @@ describe RaCTPP do
   it "should raise an error for an unknown data type" do
     lambda { @rpp.data_type "http://unknown.com/error/thing" }.should raise_error
   end
+  
+  it "should give a data value for a predefined data type with string argument" do
+    dt = @rpp.data_type("http://www.w3.org/2001/XMLSchema#integer")
+    dv = @rpp.data_value("3", dt)
+    
+    dv.node.should_not == nil
+    dv.name.should == "3"
+    dv.type.symbol.should == :data_value
+  end
 end

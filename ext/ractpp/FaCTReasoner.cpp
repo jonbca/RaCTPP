@@ -179,29 +179,75 @@ Entity* FaCTReasoner::getBuiltInDataType(std::string const &name) {
 
 Entity* FaCTReasoner::getDataTop(void) {
 	TExpressionManager *em = Kernel->getExpressionManager();
-	Entity* entity = new Entity(em->DataTop(), "DataTop", DataTypeType);
+	return new Entity(em->DataTop(), "DataTop", DataTypeType);
 }
 
 Entity* FaCTReasoner::getDataEnumeration(void) {
-	
+	TExpressionManager *em = Kernel->getExpressionManager();
+	return new Entity(em->DataOneOf(), "DataOneOf", DataTypeType);
 }
 
 Entity* FaCTReasoner::getRestrictedDataType(Entity* datatype, Entity* facet) {
-	
+	return NULL;
 }
 
-Entity* FaCTReasoner::getMinExclusiveFacet(void) {
+Entity* FaCTReasoner::getMinExclusiveFacet(Entity* value) {
+	TExpressionManager *em = Kernel->getExpressionManager();
+	std::stringstream name;
 	
+	name << "xmin: " << value->name;
+	
+	return new Entity(
+		em->FacetMinExclusive(unpackageROEntity<TDLDataValue>(value)),
+		name.str(),
+		DataTypeFacetType);
 }
 
-Entity* FaCTReasoner::getMaxExclusiveFacet(void) {
+Entity* FaCTReasoner::getMaxExclusiveFacet(Entity* value) {
+	TExpressionManager *em = Kernel->getExpressionManager();
+	std::stringstream name;
 	
+	name << "xmax: " << value->name;
+	
+	return new Entity(
+		em->FacetMaxExclusive(unpackageROEntity<TDLDataValue>(value)),
+		name.str(),
+		DataTypeFacetType);
 }
 
-Entity* FaCTReasoner::getMinInclusiveFacet(void) {
+Entity* FaCTReasoner::getMinInclusiveFacet(Entity* value) {
+	TExpressionManager *em = Kernel->getExpressionManager();
+	std::stringstream name;
 	
+	name << "min: " << value->name;
+	
+	return new Entity(
+		em->FacetMinInclusive(unpackageROEntity<TDLDataValue>(value)),
+		name.str(),
+		DataTypeFacetType);
 }
 
-Entity* FaCTReasoner::getMaxInclusiveFacet(void) {
+Entity* FaCTReasoner::getMaxInclusiveFacet(Entity* value) {
+	TExpressionManager *em = Kernel->getExpressionManager();
+	std::stringstream name;
 	
+	name << "max: " << value->name;
+	
+	return new Entity(
+		em->FacetMaxInclusive(unpackageROEntity<TDLDataValue>(value)),
+		name.str(),
+		DataTypeFacetType);
+}
+
+Entity* FaCTReasoner::getDataValue(std::string const &name, Entity* type) {
+	TExpressionManager *em = Kernel->getExpressionManager();
+	
+	/* Intentionally casting away const-ness because DataTypes aren't really const
+	but they are stored as const in the Entity. The Entity stores them as const
+	because almost everything else in the app is const, so this is an exception
+	to the rule. */
+	return new Entity(
+		em->DataValue(name.c_str(), const_cast<TDLDataTypeExpression*>(unpackageROEntity<TDLDataTypeExpression>(type))),
+		name,
+		DataValueType);
 }
