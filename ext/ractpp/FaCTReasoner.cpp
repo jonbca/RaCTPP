@@ -35,7 +35,14 @@ static T* unpackageEntity(Entity* const e) {
 forces the return of a const pointer. */
 template <typename T>
 static const T* unpackageROEntity(Entity* const e) {
-	return dynamic_cast<const T*>((const ReasoningKernel::TExpr*)e->getEntityPointer());
+	const T* converted = dynamic_cast<const T*>((const ReasoningKernel::TExpr*)e->getEntityPointer());
+	
+	if(converted == NULL) {
+		std::stringstream err;
+		err << "Cast Error: Entity [" << e->to_s() << "] is of type " << typeid(e->getEntityPointer()).name();
+		throw RaCTPPException(err.str());
+	}
+	return converted;
 }
 
 FaCTReasoner::FaCTReasoner()
