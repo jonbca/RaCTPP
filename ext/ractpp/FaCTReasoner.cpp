@@ -263,3 +263,48 @@ Entity* FaCTReasoner::getDataValue(std::string const &name, Entity* type) {
 		name,
 		DataValueType);
 }
+
+Entity* FaCTReasoner::getDataNot(Entity* value) {
+	TExpressionManager *em = Kernel->getExpressionManager();
+	std::stringstream name;
+	name << "Not " << value->name;
+	
+	return new Entity(
+		em->DataNot(unpackageROEntity<TDLDataExpression>(value)),
+		name.str(),
+		DataTypeExpressionType);
+}
+
+Entity* FaCTReasoner::getDataIntersectionOf(void) {
+	TExpressionManager *em = Kernel->getExpressionManager();
+	std::stringstream name;
+	
+	return new Entity(em->DataAnd(), "Intersection", DataTypeExpressionType);
+}
+
+Entity* FaCTReasoner::getDataUnionOf(void) {
+	TExpressionManager *em = Kernel->getExpressionManager();
+	std::stringstream name;
+	
+	return new Entity(em->DataOr(), "Intersection", DataTypeExpressionType);
+}
+
+Entity* FaCTReasoner::getConceptAnd(void) {
+	
+}
+
+Entity* FaCTReasoner::getConceptOr(void) {
+	
+}
+
+Entity* FaCTReasoner::getConceptNot(Entity* value) {
+	
+}
+
+Entity* FaCTReasoner::getObjectSome(Entity* role, Entity* concept) {
+	
+}
+
+Entity* FaCTReasoner::getObjectAll(Entity* role, Entity* concept) {
+	
+}

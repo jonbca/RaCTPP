@@ -118,7 +118,18 @@ public:
 	Entity* getMinInclusiveFacet(Entity* value);
 	Entity* getMaxInclusiveFacet(Entity* value);
 	
+	Entity* getDataNot(Entity* value);
+	Entity* getDataIntersectionOf(void);
+	Entity* getDataUnionOf(void);
+	
 	Entity* getDataValue(std::string const &name, Entity* type);
+	
+	Entity* getConceptAnd(void);
+	Entity* getConceptOr(void);
+	Entity* getConceptNot(Entity* value);
+	
+	Entity* getObjectSome(Entity* role, Entity* concept);
+	Entity* getObjectAll(Entity* role, Entity* concept);
 };
 
 class Entity {
