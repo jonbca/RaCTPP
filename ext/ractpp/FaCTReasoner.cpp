@@ -20,11 +20,16 @@ along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 #define NEED_KERNEL_H
 #include "FaCTReasoner.h"
 
+/* quick shorthand for expression manager from Kernel member */
+#define EM Kernel->getExpressionManager()
+
 template <typename T>
 static T* unpackageEntity(Entity* const e) {
 	return dynamic_cast<T*>((ReasoningKernel::TExpr*)e->getEntityPointer());
 }
 
+/* Unpackage a TDL pointer from the Entity class that contains it. This method
+forces the return of a const pointer. */
 template <typename T>
 static const T* unpackageROEntity(Entity* const e) {
 	return dynamic_cast<const T*>((const ReasoningKernel::TExpr*)e->getEntityPointer());
@@ -74,9 +79,7 @@ void FaCTReasoner::realise(void) {
 }
 
 Entity* FaCTReasoner::getTop(void) {
-	TExpressionManager* em = Kernel->getExpressionManager();
-	
-	ReasoningKernel::TConceptExpr* top = em->Top();
+	ReasoningKernel::TConceptExpr* top = EM->Top();
 	
 	Entity *entity = new Entity(top, "Thing", ClassType);
 	
@@ -84,9 +87,7 @@ Entity* FaCTReasoner::getTop(void) {
 }
 
 Entity* FaCTReasoner::getBottom(void) {
-	TExpressionManager* em = Kernel->getExpressionManager();
-	
-	ReasoningKernel::TConceptExpr* bottom = em->Bottom();
+	ReasoningKernel::TConceptExpr* bottom = EM->Bottom();
 	
 	Entity *entity = new Entity(bottom, "Nothing", ClassType);
 	
@@ -94,9 +95,7 @@ Entity* FaCTReasoner::getBottom(void) {
 }
 
 Entity* FaCTReasoner::getClassByName(std::string const &name) {
-	TExpressionManager* em = Kernel->getExpressionManager();
-	
-	ReasoningKernel::TConceptExpr* clazz = em->Concept(name.c_str());
+	ReasoningKernel::TConceptExpr* clazz = EM->Concept(name.c_str());
 	
 	Entity *entity = new Entity(clazz, name, ClassType);
 	
@@ -104,10 +103,8 @@ Entity* FaCTReasoner::getClassByName(std::string const &name) {
 }
 
 Entity* FaCTReasoner::getObjectProperty(std::string const &name) {
-	TExpressionManager* em = Kernel->getExpressionManager();
-	
 	ReasoningKernel::TORoleExpr* orole = 
-		em->ObjectRole(name.c_str());
+		EM->ObjectRole(name.c_str());
 	
 	Entity *entity = new Entity(orole, name.c_str(), ObjectPropertyType);
 	return entity;
@@ -122,10 +119,7 @@ Entity* FaCTReasoner::getBottomObjectProperty(void) {
 }
 
 Entity* FaCTReasoner::getDataProperty(std::string const &name) {
-	TExpressionManager* em = Kernel->getExpressionManager();
-	
-	ReasoningKernel::TDRoleExpr* drole =
-		em->DataRole(name.c_str());
+	ReasoningKernel::TDRoleExpr* drole = EM->DataRole(name.c_str());
 	Entity *entity = new Entity(drole, name.c_str(), DataPropertyType);
 	
 	return entity;
@@ -140,10 +134,8 @@ Entity* FaCTReasoner::getBottomDataProperty(void) {
 }
 
 Entity* FaCTReasoner::getIndividual(std::string const &name) {
-	TExpressionManager *em = Kernel->getExpressionManager();
-	
 	ReasoningKernel::TIndividualExpr* indiv =
-		em->Individual(name);
+		EM->Individual(name);
 		
 	Entity *entity = new Entity(indiv, name.c_str(), IndividualType);
 	return entity;
@@ -173,120 +165,103 @@ static Entity* const makeEntityForDataType(TExpressionManager *em, std::string c
 }
 
 Entity* FaCTReasoner::getBuiltInDataType(std::string const &name) {
-	TExpressionManager *em = Kernel->getExpressionManager();
-	return makeEntityForDataType(em, name);
+	return makeEntityForDataType(EM, name);
 }
 
 Entity* FaCTReasoner::getDataTop(void) {
-	TExpressionManager *em = Kernel->getExpressionManager();
-	return new Entity(em->DataTop(), "DataTop", DataTypeType);
+	return new Entity(EM->DataTop(), "DataTop", DataTypeType);
 }
 
 Entity* FaCTReasoner::getDataEnumeration(void) {
-	TExpressionManager *em = Kernel->getExpressionManager();
 	
 	throw RaCTPPException("getDataEnumeration not yet implemented.");
 	
-	//return new Entity(em->DataOneOf(), "DataOneOf", DataTypeExpressionType);
+	//return new Entity(EM->DataOneOf(), "DataOneOf", DataTypeExpressionType);
 }
 
 Entity* FaCTReasoner::getRestrictedDataType(Entity* datatype, Entity* facet) {
-	TExpressionManager *em = Kernel->getExpressionManager();
 	std::stringstream name;
 	
 	name << "Restricted Type: " << datatype->name << " " << facet->name;
 	
 	return new Entity(
-		em->RestrictedType(const_cast<TDLDataTypeExpression*>(unpackageROEntity<TDLDataTypeExpression>(datatype)), unpackageROEntity<TDLFacetExpression>(facet)),
+		EM->RestrictedType(const_cast<TDLDataTypeExpression*>(unpackageROEntity<TDLDataTypeExpression>(datatype)), unpackageROEntity<TDLFacetExpression>(facet)),
 		name.str(),
 		DataTypeExpressionType
 	);
 }
 
 Entity* FaCTReasoner::getMinExclusiveFacet(Entity* value) {
-	TExpressionManager *em = Kernel->getExpressionManager();
 	std::stringstream name;
 	
 	name << "xmin: " << value->name;
 	
 	return new Entity(
-		em->FacetMinExclusive(unpackageROEntity<TDLDataValue>(value)),
+		EM->FacetMinExclusive(unpackageROEntity<TDLDataValue>(value)),
 		name.str(),
 		DataTypeFacetType);
 }
 
 Entity* FaCTReasoner::getMaxExclusiveFacet(Entity* value) {
-	TExpressionManager *em = Kernel->getExpressionManager();
 	std::stringstream name;
 	
 	name << "xmax: " << value->name;
 	
 	return new Entity(
-		em->FacetMaxExclusive(unpackageROEntity<TDLDataValue>(value)),
+		EM->FacetMaxExclusive(unpackageROEntity<TDLDataValue>(value)),
 		name.str(),
 		DataTypeFacetType);
 }
 
 Entity* FaCTReasoner::getMinInclusiveFacet(Entity* value) {
-	TExpressionManager *em = Kernel->getExpressionManager();
 	std::stringstream name;
 	
 	name << "min: " << value->name;
 	
 	return new Entity(
-		em->FacetMinInclusive(unpackageROEntity<TDLDataValue>(value)),
+		EM->FacetMinInclusive(unpackageROEntity<TDLDataValue>(value)),
 		name.str(),
 		DataTypeFacetType);
 }
 
 Entity* FaCTReasoner::getMaxInclusiveFacet(Entity* value) {
-	TExpressionManager *em = Kernel->getExpressionManager();
 	std::stringstream name;
 	
 	name << "max: " << value->name;
 	
 	return new Entity(
-		em->FacetMaxInclusive(unpackageROEntity<TDLDataValue>(value)),
+		EM->FacetMaxInclusive(unpackageROEntity<TDLDataValue>(value)),
 		name.str(),
 		DataTypeFacetType);
 }
 
 Entity* FaCTReasoner::getDataValue(std::string const &name, Entity* type) {
-	TExpressionManager *em = Kernel->getExpressionManager();
-	
 	/* Intentionally casting away const-ness because DataTypes aren't really const
 	but they are stored as const in the Entity. The Entity stores them as const
 	because almost everything else in the app is const, so this is an exception
 	to the rule. */
 	return new Entity(
-		em->DataValue(name.c_str(), const_cast<TDLDataTypeExpression*>(unpackageROEntity<TDLDataTypeExpression>(type))),
+		EM->DataValue(name.c_str(), const_cast<TDLDataTypeExpression*>(unpackageROEntity<TDLDataTypeExpression>(type))),
 		name,
 		DataValueType);
 }
 
 Entity* FaCTReasoner::getDataNot(Entity* value) {
-	TExpressionManager *em = Kernel->getExpressionManager();
 	std::stringstream name;
 	name << "Not " << value->name;
 	
 	return new Entity(
-		em->DataNot(unpackageROEntity<TDLDataExpression>(value)),
+		EM->DataNot(unpackageROEntity<TDLDataExpression>(value)),
 		name.str(),
 		DataTypeExpressionType);
 }
 
 Entity* FaCTReasoner::getDataIntersectionOf(void) {
-	TExpressionManager *em = Kernel->getExpressionManager();
-	std::stringstream name;
-	
-	return new Entity(em->DataAnd(), "Intersection", DataTypeExpressionType);
+	return new Entity(EM->DataAnd(), "Intersection", DataTypeExpressionType);
 }
 
 Entity* FaCTReasoner::getDataUnionOf(void) {
-	TExpressionManager *em = Kernel->getExpressionManager();
-	std::stringstream name;
-	
-	return new Entity(em->DataOr(), "Intersection", DataTypeExpressionType);
+	return new Entity(EM->DataOr(), "Intersection", DataTypeExpressionType);
 }
 
 Entity* FaCTReasoner::getConceptAnd(void) {
