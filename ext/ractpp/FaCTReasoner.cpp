@@ -188,7 +188,7 @@ Entity* FaCTReasoner::getRestrictedDataType(Entity* datatype, Entity* facet) {
 	name << "Restricted Type: " << datatype->name << " " << facet->name;
 	
 	return new Entity(
-		EM->RestrictedType(const_cast<TDLDataTypeExpression*>(unpackageROEntity<TDLDataTypeExpression>(datatype)), unpackageROEntity<TDLFacetExpression>(facet)),
+		EM->RestrictedType(unpackageEntity<TDLDataTypeExpression>(datatype), unpackageROEntity<TDLFacetExpression>(facet)),
 		name.str(),
 		DataTypeExpressionType
 	);
@@ -239,12 +239,8 @@ Entity* FaCTReasoner::getMaxInclusiveFacet(Entity* value) {
 }
 
 Entity* FaCTReasoner::getDataValue(std::string const &name, Entity* type) {
-	/* Intentionally casting away const-ness because DataTypes aren't really const
-	but they are stored as const in the Entity. The Entity stores them as const
-	because almost everything else in the app is const, so this is an exception
-	to the rule. */
 	return new Entity(
-		EM->DataValue(name.c_str(), const_cast<TDLDataTypeExpression*>(unpackageROEntity<TDLDataTypeExpression>(type))),
+		EM->DataValue(name.c_str(), unpackageEntity<TDLDataTypeExpression>(type)),
 		name,
 		DataValueType);
 }
@@ -264,25 +260,45 @@ Entity* FaCTReasoner::getDataIntersectionOf(void) {
 }
 
 Entity* FaCTReasoner::getDataUnionOf(void) {
-	return new Entity(EM->DataOr(), "Intersection", DataTypeExpressionType);
+	return new Entity(EM->DataOr(), "Union", DataTypeExpressionType);
 }
 
 Entity* FaCTReasoner::getConceptAnd(void) {
-	
+	return new Entity(EM->And(), "Intersection", ClassType);
 }
 
 Entity* FaCTReasoner::getConceptOr(void) {
-	
+	return new Entity(EM->Or(), "Union", ClassType);
 }
 
 Entity* FaCTReasoner::getConceptNot(Entity* value) {
+	std::stringstream name;
 	
+	name << "Not " << value->name;
+	
+	return new Entity(EM->Not(unpackageROEntity<TDLConceptExpression>(value)),
+		name.str(),
+		ClassType);
 }
 
 Entity* FaCTReasoner::getObjectSome(Entity* role, Entity* concept) {
+	std::stringstream name;
 	
+	name << role->name << " some " << concept->name;
+	
+	return new Entity(EM->Exists(unpackageROEntity<TDLObjectRoleExpression>(role),
+								 unpackageROEntity<TDLConceptExpression>(concept)),
+					  name.str(),
+					  ClassType);
 }
 
 Entity* FaCTReasoner::getObjectAll(Entity* role, Entity* concept) {
+	std::stringstream name;
 	
+	name << role->name << " only " << concept->name;
+	
+	return new Entity(EM->Forall(unpackageROEntity<TDLObjectRoleExpression>(role),
+								 unpackageROEntity<TDLConceptExpression>(concept)),
+					  name.str(),
+					  ClassType);
 }
