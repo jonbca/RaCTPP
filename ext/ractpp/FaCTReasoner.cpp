@@ -23,9 +23,12 @@ along with RactPP.  If not, see <http://www.gnu.org/licenses/>.
 /* quick shorthand for expression manager from Kernel member */
 #define EM Kernel->getExpressionManager()
 
+/* Unpackage a TDL pointer from the Entity class that contains it. This method
+STRIPS const from the return type. Bad practice, but the original library does
+this too and forces it in a few areas.*/
 template <typename T>
 static T* unpackageEntity(Entity* const e) {
-	return dynamic_cast<T*>((ReasoningKernel::TExpr*)e->getEntityPointer());
+	return const_cast<T*>(dynamic_cast<const T*>((const ReasoningKernel::TExpr*)e->getEntityPointer()));
 }
 
 /* Unpackage a TDL pointer from the Entity class that contains it. This method
